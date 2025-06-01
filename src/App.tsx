@@ -1,8 +1,8 @@
-import ItemCard from "./components/ItemCard"
+import ItemGrid from "./components/ItemGrid"
 
 function App() {
   return (
-    <ItemCard></ItemCard>
+    <ItemGrid></ItemGrid>
   )
 }
 

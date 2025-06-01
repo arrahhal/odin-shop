@@ -45,7 +45,7 @@ export function ItemCard({ title, desc, price, image, loading = false }: ItemCar
           </>
         ) : (
           <>
-            <CardTitle className="text-lg mt-2">{title}</CardTitle>
+            <CardTitle className="text-lg mt-2 line-clamp-1">{title}</CardTitle>
             <CardDescription className="line-clamp-2">{desc}</CardDescription>
           </>
         )}
