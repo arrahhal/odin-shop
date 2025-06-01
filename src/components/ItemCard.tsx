@@ -9,8 +9,17 @@ import {
   CardFooter,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Skeleton } from "@/components/ui/skeleton"
 
-export function ItemCard() {
+type ItemCardProps = {
+  title: string
+  desc: string
+  price: number
+  image?: string
+  loading: boolean
+}
+
+export function ItemCard({ title, desc, price, image, loading = false }: ItemCardProps) {
   const [quantity, setQuantity] = useState(1)
 
   const handleIncrease = () => setQuantity(q => q + 1)
@@ -19,36 +28,67 @@ export function ItemCard() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <img
-          src="https://via.placeholder.com/300x200"
-          alt="Product"
-          className="w-full h-48 object-cover rounded-md"
-        />
-        <CardTitle className="text-lg mt-2">Cool Sneakers</CardTitle>
-        <CardDescription className="line-clamp-2">
-          High-quality sneakers that keep your feet comfy all day. Limited stock available.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex items-center justify-between">
-        <span className="text-xl font-semibold">$89.99</span>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={handleDecrease}>
-            -
-          </Button>
-          <Input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            className="w-12 text-center p-1 h-8 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-moz-appearance]:textfield appearance-none"
-            min={1}
+        {loading ? (
+          <Skeleton className="w-full h-48 rounded-md" />
+        ) : (
+          <img
+            src={image || "https://via.placeholder.com/300x200"}
+            alt={title}
+            className="w-full h-48 object-cover rounded-md"
           />
-          <Button variant="outline" size="sm" onClick={handleIncrease}>
-            +
-          </Button>
-        </div>
+        )}
+
+        {loading ? (
+          <>
+            <Skeleton className="h-5 w-3/4 mt-4" />
+            <Skeleton className="h-4 w-full mt-2" />
+          </>
+        ) : (
+          <>
+            <CardTitle className="text-lg mt-2">{title}</CardTitle>
+            <CardDescription className="line-clamp-2">{desc}</CardDescription>
+          </>
+        )}
+      </CardHeader>
+
+      <CardContent className="flex items-center justify-between">
+        {loading ? (
+          <>
+            <Skeleton className="h-6 w-16" />
+            <div className="flex gap-2">
+              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-8 w-12" />
+              <Skeleton className="h-8 w-8" />
+            </div>
+          </>
+        ) : (
+          <>
+            <span className="text-xl font-semibold">${(price * quantity).toFixed(2)}</span>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" onClick={handleDecrease}>-</Button>
+              <Input
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
+                className="w-12 text-center p-1 h-8 
+                  [&::-webkit-outer-spin-button]:appearance-none 
+                  [&::-webkit-inner-spin-button]:appearance-none 
+                  appearance-none 
+                  [&::-moz-appearance]:textfield"
+                min={1}
+              />
+              <Button variant="outline" size="sm" onClick={handleIncrease}>+</Button>
+            </div>
+          </>
+        )}
       </CardContent>
+
       <CardFooter>
-        <Button className="w-full">Add {quantity} to Cart</Button>
+        {loading ? (
+          <Skeleton className="h-10 w-full" />
+        ) : (
+          <Button className="w-full">Add {quantity} to Cart</Button>
+        )}
       </CardFooter>
     </Card>
   )
