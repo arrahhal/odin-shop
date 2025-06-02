@@ -1,8 +1,12 @@
+import Header from "./components/Header"
 import ItemGrid from "./components/ItemGrid"
 
 function App() {
   return (
-    <ItemGrid></ItemGrid>
+    <div className="flex flex-col gap-2">
+      <Header></Header>
+      <ItemGrid></ItemGrid>
+    </div>
   )
 }
 
