@@ -1,3 +1,8 @@
-# DDS: Drug Distribution System
+# Shopping Cart Project
 
-WIP...
+My Solution to the Shopping Cart Assignment
+
+Technologies used:
+- React
+- Tailwindcss
+- Shadcn
