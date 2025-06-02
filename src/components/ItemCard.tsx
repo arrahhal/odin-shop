@@ -10,20 +10,36 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useCart } from "@/contexts/CartContext"
 
 type ItemCardProps = {
+  id: number,
   title: string
-  desc: string
+  description: string
   price: number
   image?: string
   loading: boolean
 }
 
-export function ItemCard({ title, desc, price, image, loading = false }: ItemCardProps) {
+export function ItemCard({ id, title, description, price, image, loading = false }: ItemCardProps) {
   const [quantity, setQuantity] = useState(1)
+  const { addToCart } = useCart();
 
   const handleIncrease = () => setQuantity(q => q + 1)
   const handleDecrease = () => setQuantity(q => (q > 1 ? q - 1 : 1))
+
+  const handleAddToCart = () => {
+    addToCart(
+      {
+        id,
+        title,
+        description,
+        price,
+        image,
+      },
+      quantity
+    )
+  }
 
   return (
     <Card className="w-full max-w-sm">
@@ -46,7 +62,7 @@ export function ItemCard({ title, desc, price, image, loading = false }: ItemCar
         ) : (
           <>
             <CardTitle className="text-lg mt-2 line-clamp-1">{title}</CardTitle>
-            <CardDescription className="line-clamp-2">{desc}</CardDescription>
+            <CardDescription className="line-clamp-2">{description}</CardDescription>
           </>
         )}
       </CardHeader>
@@ -87,7 +103,7 @@ export function ItemCard({ title, desc, price, image, loading = false }: ItemCar
         {loading ? (
           <Skeleton className="h-10 w-full" />
         ) : (
-          <Button className="w-full">Add {quantity} to Cart</Button>
+          <Button onClick={handleAddToCart} className="w-full">Add {quantity} to Cart</Button>
         )}
       </CardFooter>
     </Card>

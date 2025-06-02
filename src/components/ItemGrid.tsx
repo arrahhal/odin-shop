@@ -13,12 +13,13 @@ export default function ItemGrid() {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
       {loading
-        ? Array.from({ length: 6 }).map((_, i) => <ItemCard key={i} loading title="" desc="" price={0} />)
+        ? Array.from({ length: 6 }).map((_, i) => <ItemCard id={i} key={i} loading title="" description="" price={0} />)
         : items.map((item) => (
           <ItemCard
+            id={item.id}
             key={item.id}
             title={item.title}
-            desc={item.description}
+            description={item.description}
             price={item.price}
             image={item.image}
             loading={false}
